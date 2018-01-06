@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from simulator import *
 import sys
 
@@ -11,13 +13,16 @@ def print(*args):
     sys.stdout.flush()
 
 
-creature = Creature(velocity=vec2(1, 0.5))
-engine = Engine()
+def main():
+    creature = Creature(velocity=vec2(1, 0.5))
+    engine = Engine()
+    engine.add(creature)
 
-engine.add(creature)
+    @set_interval(1 / 30, start=True)
+    def loop():
+        print(creature.position.x, creature.position.y)
+        engine.update()
 
 
-@set_interval(1 / 30, start=True)
-def loop():
-    print(creature.position.x, creature.position.y)
-    engine.update()
+if __name__ == "__main__":
+    main()
