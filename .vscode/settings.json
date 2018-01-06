@@ -1,9 +1,0 @@
-{
-    "python.linting.enabled": true,
-    "python.linting.pep8Enabled": true,
-
-    "files.exclude": {
-        "*/*/__*__": true,
-        "*/__*__": true,
-    }
-}
