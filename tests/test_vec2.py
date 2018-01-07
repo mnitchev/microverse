@@ -39,10 +39,10 @@ class TestVec2(unittest.TestCase):
                                first.y - second.y)
         self.__assert_vectors_equal(actual_result, expected_vector)
 
-    def test_direction(self):
+    def test_distance(self):
         first = vec2(5, 3)
         second = vec2(7, 1)
-        actual_distance = first.direction(second)
+        actual_distance = first.distance(second)
         expected_distance = first.copy.subtract(second).length
 
         self.assertEqual(actual_distance, expected_distance)

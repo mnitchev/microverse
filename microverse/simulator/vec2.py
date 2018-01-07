@@ -31,7 +31,7 @@ class Vec2:
     def subtract(self, vec):
         return self.add(vec.reverse)
 
-    def direction(self, vec):
+    def distance(self, vec):
         return self.copy.subtract(vec).length
 
     def rotate(self, angle):
