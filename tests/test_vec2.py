@@ -54,6 +54,20 @@ class TestVec2(unittest.TestCase):
         expected_vector = vec2(-0.7071, 4.9497)
         self.__assert_vectors_equal(actual_vector, expected_vector)
 
+    def test_scale(self):
+        vector = vec2(3, 4)
+        actual_vector = vector.copy.scale(2)
+
+        expected_vector = vec2(6, 8)
+        self.__assert_vectors_equal(actual_vector, expected_vector)
+
+    def test_scale_to(self):
+        vector = vec2(3, 4)
+        actual_vector = vector.copy.scale_to(10)
+
+        expected_vector = vec2(6, 8)
+        self.__assert_vectors_equal(actual_vector, expected_vector)
+
     def __assert_vectors_equal(self, actual, expected):
         self.assertAlmostEqual(actual.x, expected.x, places=4)
         self.assertAlmostEqual(actual.y, expected.y, places=4)

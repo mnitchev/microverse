@@ -41,3 +41,15 @@ class Vec2:
         self.y = self.y * math.cos(angle) + old_x * math.sin(angle)
 
         return self
+
+    def scale(self, n):
+        self.x *= n
+        self.y *= n
+
+        return self
+
+    def scale_to(self, n):
+        vac_length = self.length
+        n /= vac_length
+
+        return self.scale(n)
