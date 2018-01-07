@@ -11,8 +11,8 @@ class Vec2:
         self.y = y
 
     @property
-    def copy(self, vec):
-        return Vec2(vec.x, vec.y)
+    def copy(self):
+        return Vec2(self.x, self.y)
 
     @property
     def reverse(self):
@@ -20,7 +20,7 @@ class Vec2:
 
     @property
     def length(self):
-        return marth.sqrt(self.x * self.x + self.y * self.y)
+        return math.sqrt(self.x * self.x + self.y * self.y)
 
     def add(self, vec):
         self.x += vec.x
@@ -32,7 +32,7 @@ class Vec2:
         return self.add(vec.reverse)
 
     def direction(self, vec):
-        return self.subtract(vec).length
+        return self.copy.subtract(vec).length
 
     def rotate(self, angle):
         old_x = self.x
