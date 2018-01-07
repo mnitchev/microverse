@@ -35,7 +35,6 @@ class Sight:
                 if not valid:
                     distance = math.inf
 
-                print('#', distance)
                 if distance < closest_distance:
                     closest_distance = distance
 
