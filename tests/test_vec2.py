@@ -69,8 +69,7 @@ class TestVec2(unittest.TestCase):
         self.__assert_vectors_equal(actual_vector, expected_vector)
 
     def __assert_vectors_equal(self, actual, expected):
-        self.assertAlmostEqual(actual.x, expected.x, places=4)
-        self.assertAlmostEqual(actual.y, expected.y, places=4)
+        self.assertTrue(expected.almost_equal(actual))
 
 
 if __name__ == '__main__':

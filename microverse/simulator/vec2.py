@@ -53,3 +53,14 @@ class Vec2:
         n /= vac_length
 
         return self.scale(n)
+
+    def __eq__(self, other):
+        return self.x == other.x and \
+            self.y == other.y
+
+    def almost_equal(self, other, epsilon=0.0001):
+        return math.fabs(self.x - other.x) < epsilon and \
+            math.fabs(self.y - other.y) < epsilon
+
+
+POINT_AT_INFINITY = Vec2(math.inf, math.inf)
