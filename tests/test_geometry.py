@@ -11,10 +11,10 @@ class TestUtilityFunctions(unittest.TestCase):
         valid, actual_distance, actual_point = result
 
         expected_point = vec2(0, 1)
-        expceted_distance = 1
+        expected_distance = 1
         self.assertTrue(valid)
         self.assertTrue(expected_point.almost_equal(actual_point))
-        self.assertEqual(actual_distance, expceted_distance)
+        self.assertEqual(actual_distance, expected_distance)
 
     def test_ray_intersect(self):
         result = geometry.ray_circle_intersect(
@@ -23,10 +23,10 @@ class TestUtilityFunctions(unittest.TestCase):
         valid, actual_distance, actual_point = result
 
         expected_point = geometry.POINT_AT_INFINITY
-        expceted_distance = math.inf
+        expected_distance = math.inf
         self.assertFalse(valid)
         self.assertEqual(actual_point, expected_point)
-        self.assertEqual(actual_distance, expceted_distance)
+        self.assertEqual(actual_distance, expected_distance)
 
 
 if __name__ == '__main__':
