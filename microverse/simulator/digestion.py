@@ -1,4 +1,4 @@
-from .geometry import if_circle_circle_intersect
+from .geometry import circles_intersect
 
 
 class Digestion:
@@ -9,6 +9,6 @@ class Digestion:
         for element in self.environment:
             element_circle = element.position, element.size
             creature_circle = creature.position, creature.size
-            if if_circle_circle_intersect(element_circle, creature_circle):
+            if circles_intersect(element_circle, creature_circle):
                 creature.level_up()
                 element.level_down()
