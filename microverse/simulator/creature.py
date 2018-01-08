@@ -10,11 +10,18 @@ class Creature:
         # The plugins are list of lists.
         # Each plugin consists of multiple callable "parts",
         # which are piped when the creature is updated.
-        # The creature "can move" by default.
-        self.plugins = [[Movement()]]
+        self.plugins = []
+        self.score = 0
+
+    def level_up(self):
+        self.score += 1
+
+    def level_down(self):
+        self.score -= 1
 
     def plug(self, *plugin):
         self.plugins.append(plugin)
+        return self
 
     def steer(self, angle):
         self.velocity.rotate(angle)
@@ -24,8 +31,3 @@ class Creature:
             piped_value = self
             for part in plugin:
                 piped_value = part(piped_value, self)
-
-
-class Movement:
-    def __call__(self, creature, _):
-        creature.position.add(creature.velocity)
