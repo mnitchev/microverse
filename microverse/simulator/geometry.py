@@ -2,7 +2,7 @@ import math
 from .vec2 import vec2, POINT_AT_INFINITY
 
 
-def if_circle_circle_intersect(first, second):
+def circles_intersect(first, second):
     first_center, first_radius = first
     second_center, second_radius = second
     centers_distance = first_center.distance(second_center)

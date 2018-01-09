@@ -28,6 +28,20 @@ class TestUtilityFunctions(unittest.TestCase):
         self.assertEqual(actual_point, expected_point)
         self.assertEqual(actual_distance, expected_distance)
 
+    def test_circles_intersect(self):
+        first_circle = vec2(0, 1), 3
+        second_circle = vec2(0, 4), 2
+
+        self.assertTrue(geometry.circles_intersect(
+            first_circle, second_circle))
+
+    def test_circles_intersect_no_intersection(self):
+        first_circle = vec2(5, 5), 3
+        second_circle = vec2(-1, 4), 2
+
+        self.assertFalse(geometry.circles_intersect(
+            first_circle, second_circle))
+
 
 if __name__ == '__main__':
     unittest.main()
