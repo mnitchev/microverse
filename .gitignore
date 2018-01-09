@@ -5,3 +5,5 @@
 /*.egg-info
 /.idea
 htmlcov
+*.eggs
+*.egg
