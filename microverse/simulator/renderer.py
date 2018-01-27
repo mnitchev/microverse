@@ -15,9 +15,10 @@ class Renderer:
         # self.tk.overrideredirect(True)
         # self.tk.geometry("{0}x{1}+0+0".format(self.tk.winfo_screenwidth(),
                                             #   self.tk.winfo_screenheight()))
+
         self.tk.focus_set()
-        self.canvas = Canvas(self.tk, width=self.width, height=self.height,
-                             borderwidth=0, highlightthickness=0, bg='white')
+        self.canvas=Canvas(self.tk, width=self.width, height=self.height,
+                           borderwidth=0, highlightthickness=0, bg='white')
         self.tk.bind("<Escape>", lambda e: sys.exit())
         self.tk.title('Title')
 
@@ -29,9 +30,17 @@ class Renderer:
         self.canvas.delete('all')
 
     def arc(self, x, y, r, **kwargs):
-        x, y = self.origin_translate(x, y)
+        x, y=self.origin_translate(x, y)
         self.canvas.create_oval(
-            x - r, y - r, x + r, y + r, **kwargs, outline='black'
+            x - r, y - r, x + r, y + r, **kwargs, outline = 'black'
+        )
+
+    def line(self, x_f, y_f, x_t, y_t, **kwargs):
+        x_f, y_f = self.origin_translate(x_f, y_f)
+        x_t, y_t = self.origin_translate(x_t, y_t)
+        
+        self.canvas.create_line(
+            x_f, y_f, x_t, y_t, **kwargs
         )
 
     def origin_translate(self, x, y):

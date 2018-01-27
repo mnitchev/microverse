@@ -46,7 +46,7 @@ def main():
     engine.add(creature)
     engine.add(*environment)
 
-    @sim.utils.set_interval(1 / 30, start=True)
+    @sim.set_interval(1 / 30, start=True)
     def loop():
         print(creature.position.x, creature.position.y)
         engine.update()

@@ -41,3 +41,14 @@ class Sight:
             distances.append(closest_distance)
 
         return distances
+
+    def render(self, renderer, agent):
+        sight_directions = self.get_sight_directions(agent.velocity)
+        for sight_direction in sight_directions:
+            position, forward = agent.position.copy, sight_direction.copy
+            end = position.copy.add(forward)
+
+            renderer.line(
+                position.x, position.y,
+                end.x, end.y, fill=agent.color.to_hex()
+            )

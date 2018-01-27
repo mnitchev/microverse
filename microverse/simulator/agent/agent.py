@@ -41,10 +41,14 @@ class Agent(object):
     def is_dead(self):
         return self.health <= 0
 
-    def render(self, render):
-        render.arc(
+    def render(self, renderer):
+        renderer.arc(
             self.position.x,
             self.position.y,
             self.size / 2,
             fill=self.color.to_hex()
         )
+        for plugin in self.plugins:
+            for part in plugin:
+                if hasattr(part, 'render'):
+                    part.render(renderer, self)
