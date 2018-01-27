@@ -6,12 +6,12 @@ class Agent(object):
         self, position=vec2(),
         velocity=vec2(),
         size=1,
-        object_color=color(0, 0, 0)
+        fill=color(0, 0, 0)
     ):
         self.position = position
         self.velocity = velocity
         self.size = size
-        self.color = object_color
+        self.color = fill
         self.health = 1
 
         # The plugins are list of lists.

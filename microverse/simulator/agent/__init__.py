@@ -1,3 +1,3 @@
 from .agent import Agent
-from .creature import Creature
 from .food import Food
+from .smart_agent import SmartAgent

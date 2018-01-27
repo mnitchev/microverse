@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import sys
-import math
 
 import simulator as sim
 
@@ -20,35 +19,23 @@ def main():
         sim.Food(position=sim.vec2(0, 0), size=20)
     ]
 
-    sight = sim.Sight(
-        fov=math.pi / 2,
-        ray_count=7,
-        strength=25,
-        environment=environment
-    )
-    brain = sim.NeuralNetwork([7, 10, 2])
-    navigator = sim.Navigator(steering_magnitude=0.01)
-    digestion = sim.Digestion(environment=environment)
-    mobility = sim.Mobility()
-
-    creature = sim.Creature(
+    smart_agent = sim.SmartAgent(
         position=sim.vec2(-50, 0),
         velocity=sim.vec2(1, 0),
-        size=10
+        size=10,
+        environment=environment,
+        fill=sim.color(255, 0, 0)
     )
-    creature.plug(mobility)
-    creature.plug(sight, brain, navigator)
-    creature.plug(digestion)
 
     engine = sim.Engine(
         sim.Renderer(800, 600)
     )
-    engine.add(creature)
+    engine.add(smart_agent)
     engine.add(*environment)
 
-    @sim.set_interval(1 / 30, start=True)
+    @sim.set_interval(1 / 40, start=True)
     def loop():
-        print(creature.position.x, creature.position.y)
+        print(smart_agent.position.x, smart_agent.position.y)
         engine.update()
         engine.render()
 
