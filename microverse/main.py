@@ -23,7 +23,7 @@ def main():
     sight = sim.Sight(
         fov=math.pi / 2,
         ray_count=7,
-        strength=250,
+        strength=25,
         environment=environment
     )
     brain = sim.NeuralNetwork([7, 10, 2])
@@ -32,7 +32,7 @@ def main():
     mobility = sim.Mobility()
 
     creature = sim.Creature(
-        position=sim.vec2(-30, 0),
+        position=sim.vec2(-50, 0),
         velocity=sim.vec2(1, 0),
         size=10
     )
