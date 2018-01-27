@@ -45,6 +45,6 @@ class Agent(object):
         render.arc(
             self.position.x,
             self.position.y,
-            self.size / 2,
+            self.size,
             fill=self.color.to_hex()
         )
