@@ -2,4 +2,6 @@ from .creature import Creature
 
 
 class Food(Creature):
-    pass
+    def __init__(self, *args, **kwargs):
+        Creature.__init__(self, *args, **kwargs)
+        self.color = 'red'

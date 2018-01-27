@@ -6,6 +6,7 @@ class Creature:
         self.position = position
         self.velocity = velocity
         self.size = size
+        self.color = 'orange'
 
         # The plugins are list of lists.
         # Each plugin consists of multiple callable "parts",
@@ -31,3 +32,11 @@ class Creature:
             piped_value = self
             for part in plugin:
                 piped_value = part(piped_value, self)
+
+    def render(self, render):
+        render.arc(
+            self.position.x,
+            self.position.y,
+            self.size / 2,
+            fill=self.color
+        )

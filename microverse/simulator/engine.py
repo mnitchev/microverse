@@ -3,13 +3,14 @@ class Engine:
         self.renderer = renderer
         self.scene = []
 
-    def add(self, obj):
-        self.scene.append(obj)
+    def add(self, *obj):
+        self.scene.extend(obj)
 
     def update(self, dt=1):
         for obj in self.scene:
             obj.update(dt)
+        self.renderer.update()
 
     def render(self):
         for obj in self.scene:
-            self.renderer(obj)
+            obj.render(self.renderer)
