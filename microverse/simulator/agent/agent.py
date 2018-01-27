@@ -45,7 +45,7 @@ class Agent(object):
         renderer.arc(
             self.position.x,
             self.position.y,
-            self.size / 2,
+            self.size,
             fill=self.color.to_hex()
         )
         for plugin in self.plugins:
