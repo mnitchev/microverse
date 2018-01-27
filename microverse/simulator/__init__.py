@@ -8,4 +8,6 @@ from .mobility import Mobility
 from .digestion import Digestion
 from .food import Food
 from .creature import Creature
+from .color import color
 from .renderer import Renderer
+from .agent import Agent

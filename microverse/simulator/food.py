@@ -1,7 +1,11 @@
-from .creature import Creature
+from .color import color
+from .agent import Agent
 
 
-class Food(Creature):
+class Food(Agent):
     def __init__(self, *args, **kwargs):
-        Creature.__init__(self, *args, **kwargs)
-        self.color = 'red'
+        Agent.__init__(self, *args, **kwargs)
+        self.color = color(255, 255, 0)
+
+    def level_down(self):
+        self.health = 0
