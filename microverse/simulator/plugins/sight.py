@@ -2,7 +2,7 @@ import math
 from ..utils import ray_circle_intersect
 
 
-class Sight:
+class Sight(object):
     def __init__(
         self,
         fov=math.pi / 2,
@@ -26,14 +26,8 @@ class Sight:
         for sight_direction in sight_directions:
             closest_distance = math.inf
             for element in self.environment:
-                position, forward = creature.position.copy, sight_direction.copy
-                center, radius = element.position.copy, element.size
-
-                valid, distance, intersection_point = ray_circle_intersect(
-                    (position, forward), (center, radius))
-
-                if not valid:
-                    distance = math.inf
+                distance, intersection = element.intersect_ray(
+                    creature.position.copy, sight_direction.copy)
 
                 if distance < closest_distance:
                     closest_distance = distance

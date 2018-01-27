@@ -11,19 +11,19 @@ from ..plugins import \
 
 
 class SmartAgent(Agent):
-    def __init__(self, environment, *args, **kwargs):
+    def __init__(self, environment, obstacles, *args, **kwargs):
         super(SmartAgent, self).__init__(*args, **kwargs)
 
         sight = Sight(
             fov=math.pi / 2,
             ray_count=7,
             strength=50,
-            environment=environment
+            environment=environment + obstacles
         )
-        brain = NeuralNetwork([7, 10, 2])
+        brain = NeuralNetwork([7, 10, 1])
         navigator = Navigator(steering_magnitude=0.01)
         digestion = Digestion(environment=environment)
-        mobility = Mobility()
+        mobility = Mobility(obstacles=obstacles)
 
         self.plug(sight, brain, navigator)
         self.plug(digestion)
