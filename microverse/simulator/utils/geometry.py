@@ -73,3 +73,44 @@ def line_circle_intersect(line, circle):
 
         return True, intersections
     return False, (vec2(), vec2())
+
+
+def line_line_intersect(first, second):
+    point1, point2 = first
+    point3, point4 = second
+
+    denominator = ((point1.x - point2.x) * (point3.y - point4.y) -
+                   (point1.y - point2.y) * (point3.x - point4.x))
+
+    if denominator == 0:
+        return False, POINT_AT_INFINITY
+
+    x_numerator = (((point1.x * point2.y) - (point1.y * point2.x)) *
+                   (point3.x - point4.x) - (point1.x - point2.x) *
+                   (point3.x * point4.y - point3.y * point4.x))
+
+    y_numerator = (((point1.x * point2.y) - (point1.y * point2.x)) *
+                   (point3.y - point4.y) - (point1.y - point2.y) *
+                   (point3.x * point4.y - point3.y * point4.x))
+
+    intersect_x = x_numerator / denominator
+    intersect_y = y_numerator / denominator
+    intersection = vec2(intersect_x, intersect_y)
+
+    first_min_x, first_max_x = __get_min_and_max(point1.x, point2.x)
+    first_min_y, first_max_y = __get_min_and_max(point1.y, point2.y)
+
+    second_min_x, second_max_x = __get_min_and_max(point3.x, point4.x)
+    second_min_y, second_max_y = __get_min_and_max(point3.y, point4.y)
+    
+    if first_min_x <= intersection.x <= first_max_x and \
+        second_min_x <= intersection.x <= second_max_x and \
+        first_min_y <= intersection.y <= first_max_y and \
+         second_min_y <= intersection.y <= second_max_y:
+        return True, intersection
+
+    return False, POINT_AT_INFINITY
+
+
+def __get_min_and_max(first, second):
+    return min(first, second), max(first, second)
