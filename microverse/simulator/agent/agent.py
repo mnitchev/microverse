@@ -1,5 +1,4 @@
-from .vec2 import vec2
-from .color import color
+from ..utils import vec2, color
 
 
 class Agent(object):

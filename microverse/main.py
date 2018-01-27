@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-import simulator as sim
 import sys
 import math
+
+import simulator as sim
 
 # Flush std out
 old_print = print
@@ -45,7 +46,7 @@ def main():
     engine.add(creature)
     engine.add(*environment)
 
-    @sim.set_interval(1 / 30, start=True)
+    @sim.utils.set_interval(1 / 30, start=True)
     def loop():
         print(creature.position.x, creature.position.y)
         engine.update()

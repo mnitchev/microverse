@@ -1,4 +1,4 @@
-from .geometry import circles_intersect
+from ..utils import circles_intersect
 
 
 class Digestion:

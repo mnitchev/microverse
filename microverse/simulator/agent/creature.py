@@ -1,4 +1,4 @@
-from .vec2 import vec2
+from ..utils import vec2
 from .agent import Agent
 
 

@@ -1,5 +1,5 @@
 import unittest
-from microverse.simulator.color import color
+from microverse.simulator import color
 
 
 class TestColor(unittest.TestCase):

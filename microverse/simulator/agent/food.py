@@ -1,4 +1,4 @@
-from .color import color
+from ..utils import color
 from .agent import Agent
 
 

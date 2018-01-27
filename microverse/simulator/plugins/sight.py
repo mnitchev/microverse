@@ -1,5 +1,5 @@
 import math
-from .geometry import ray_circle_intersect
+from ..utils import ray_circle_intersect
 
 
 class Sight:
