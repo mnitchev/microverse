@@ -44,5 +44,5 @@ class Sight(object):
 
             renderer.line(
                 position.x, position.y,
-                end.x, end.y, fill=agent.color.to_hex()
+                end.x, end.y, fill='#ccc'
             )
