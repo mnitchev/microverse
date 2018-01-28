@@ -9,7 +9,7 @@ from ..plugins import \
     Digestion, \
     Mobility, \
     Fatigue, \
-    HealthEmmiter
+    HealthEmitter
 
 
 class SmartAgent(Agent):
@@ -28,9 +28,9 @@ class SmartAgent(Agent):
         digestion = Digestion(environment)
         mobility = Mobility()
         fatigue = Fatigue()
-        health_emmiter = HealthEmmiter()
+        health_emitter = HealthEmitter()
 
-        self.plug(self.sight, health_emmiter, self.brain, navigator)
+        self.plug(self.sight, health_emitter, self.brain, navigator)
         self.plug(digestion)
         self.plug(mobility)
         self.plug(fatigue)

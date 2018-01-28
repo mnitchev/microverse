@@ -40,7 +40,7 @@ class Sight(object):
         sight_directions = self.get_sight_directions(agent.velocity)
 
         for intersection in self.intersections:
-            renderer.arc(intersection.x, intersection.y, 5)
+            renderer.arc(intersection.x, intersection.y, 5, fill='red')
         for sight_direction in sight_directions:
             position, forward = agent.position.copy, sight_direction.copy
             end = position.copy.add(forward)
