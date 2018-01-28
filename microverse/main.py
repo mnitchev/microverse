@@ -3,7 +3,6 @@
 import sys
 import simulator as sim
 from random import randint as rnd
-from random import random as prob
 
 
 WIDTH = 800
@@ -11,36 +10,52 @@ HEIGHT = 600
 RENDERER = sim.Renderer(WIDTH, HEIGHT)
 
 SMART_AGENTS_SIZE = 10
-FOODS_SIZE = 10
+FOODS_SIZE = 20
 
 SMART_AGENTS = set()
 FOODS = set()
 
 
+def select_parents(population):
+    population = list(population)
+    population.sort(key=lambda agent: -agent.fitness())
+    return population[:2]
+
+
+def random_world_position():
+    return sim.vec2(
+        rnd(-WIDTH / 2, WIDTH / 2),
+        rnd(-HEIGHT / 2, HEIGHT / 2)
+    )
+
+
 def food_spawner():
-    if prob() < 0.1 and len(FOODS) < FOODS_SIZE:
+    if len(FOODS) < FOODS_SIZE:
         FOODS.add(sim.Food(
-            position=sim.vec2(
-                rnd(-WIDTH / 2, WIDTH / 2),
-                rnd(-HEIGHT / 2, HEIGHT / 2)),
-            size=20,
+            position=random_world_position(),
+            size=40,
             fill=sim.color(200, 50, 72)
         ))
 
 
 def smart_agent_spawner():
-    if prob() < 0.1 and len(SMART_AGENTS) < SMART_AGENTS_SIZE:
-        SMART_AGENTS.add(sim.SmartAgent(
-            position=sim.vec2(rnd(-300, 300), rnd(-200, 200)),
-            velocity=sim.vec2(rnd(1, 3), rnd(-3, 3)).scale_to(10),
-            size=10,
-            environment=FOODS,
-            fill=sim.color(0, 0, 255)
-        ))
+    if len(SMART_AGENTS) < SMART_AGENTS_SIZE:
+        new_agent = sim.SmartAgent(FOODS)
+        if len(SMART_AGENTS) >= 2:
+            left_parent, right_parent = select_parents(SMART_AGENTS)
+            new_agent = left_parent.crossover(right_parent)
+
+        new_agent.position = random_world_position()
+        new_agent.size = 10
+        new_agent.color = sim.color(0, 0, 255)
+        new_agent.velocity = sim.vec2(rnd(1, 2), rnd(1, 2)).scale_to(10)
+
+        SMART_AGENTS.add(new_agent)
 
 
 def recycle(items):
-    return {item for item in items if not item.is_dead()}
+    for dead_item in [item for item in items if item.is_dead()]:
+        items.remove(dead_item)
 
 
 while True:
@@ -57,5 +72,5 @@ while True:
         food.update()
         food.render(RENDERER)
 
-    FOODS = recycle(FOODS)
-    SMART_AGENTS = recycle(SMART_AGENTS)
+    recycle(FOODS)
+    recycle(SMART_AGENTS)

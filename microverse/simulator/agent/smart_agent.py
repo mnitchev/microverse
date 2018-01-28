@@ -15,7 +15,7 @@ class SmartAgent(Agent):
     def __init__(self, environment, *args, **kwargs):
         super(SmartAgent, self).__init__(*args, **kwargs)
 
-        sight = Sight(
+        self.sight = Sight(
             fov=math.pi / 2,
             ray_count=7,
             strength=250,
@@ -23,17 +23,17 @@ class SmartAgent(Agent):
         )
         self.brain = NeuralNetwork([7, 10, 1])
         navigator = Navigator(steering_magnitude=0.01)
-        digestion = Digestion(environment=environment)
+        digestion = Digestion(environment)
         mobility = Mobility()
         fatigue = Fatigue()
 
-        self.plug(sight, self.brain, navigator)
+        self.plug(self.sight, self.brain, navigator)
         self.plug(digestion)
         self.plug(mobility)
         self.plug(fatigue)
 
     def crossover(self, other):
-        child = SmartAgent()
+        child = SmartAgent(self.sight.environment)
         child.brain = self.brain.crossover(other.brain)
         return child
 

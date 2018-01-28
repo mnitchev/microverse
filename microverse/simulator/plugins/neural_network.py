@@ -13,7 +13,7 @@ def array_crossover(left, right):
 def matrix_crossover(left, right):
     result = []
     for left_row, right_row in zip(left, right):
-        result.push(array_crossover(left_row, right_row))
+        result.append(array_crossover(left_row, right_row))
 
     return np.array(result)
 
@@ -51,10 +51,10 @@ class NeuralNetwork:
     def crossover(self, other):
         child = NeuralNetwork(self.sizes)
 
-        for i in enumerate(len(self.biases)):
+        for i in range(len(self.biases)):
             child.biases[i] = array_crossover(self.biases[i], other.biases[i])
 
-        for i in enumerate(len(self.weights)):
+        for i in range(len(self.weights)):
             child.weights[i] = matrix_crossover(
                 self.weights[i], other.weights[i])
 
