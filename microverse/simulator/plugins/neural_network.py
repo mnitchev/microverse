@@ -1,12 +1,20 @@
 import random
+from random import randint
 import numpy as np
 
 
 def array_crossover(left, right):
     result = []
     for i in range(len(left)):
-        result.append(left[i] if random.random() < 0.5 else right[i])
+        probability = random.random()
+        if probability < 0.1:
+            value = left[i]
+        if 0.1 <= probability < 0.45:
+            value = randint(-1, 1)
+        else:
+            value = right[i]
 
+        result.append(value)
     return np.array(result)
 
 

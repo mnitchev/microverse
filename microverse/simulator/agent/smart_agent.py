@@ -8,7 +8,8 @@ from ..plugins import \
     Navigator, \
     Digestion, \
     Mobility, \
-    Fatigue
+    Fatigue, \
+    HealthEmmiter
 
 
 class SmartAgent(Agent):
@@ -17,18 +18,19 @@ class SmartAgent(Agent):
         self.collected_food = 0
         self.parent_fitness = parent_fitness
         self.sight = Sight(
-            fov=math.pi,
+            fov=math.sqrt(2) * math.pi / 6,
             ray_count=9,
-            strength=250,
+            strength=125,
             environment=environment
         )
-        self.brain = NeuralNetwork([9, 2, 1])
+        self.brain = NeuralNetwork([10, 16, 2])
         navigator = Navigator(steering_magnitude=0.01)
         digestion = Digestion(environment)
         mobility = Mobility()
         fatigue = Fatigue()
+        health_emmiter = HealthEmmiter()
 
-        self.plug(self.sight, self.brain, navigator)
+        self.plug(self.sight, health_emmiter, self.brain, navigator)
         self.plug(digestion)
         self.plug(mobility)
         self.plug(fatigue)

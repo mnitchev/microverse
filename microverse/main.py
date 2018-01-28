@@ -6,12 +6,12 @@ import simulator as sim
 from random import randint as rnd
 
 
-WIDTH = 500
-HEIGHT = 500
+WIDTH = 800
+HEIGHT = 600
 RENDERER = sim.Renderer(WIDTH, HEIGHT)
 
-SMART_AGENTS_SIZE = 1
-FOODS_SIZE = 1
+SMART_AGENTS_SIZE = 10
+FOODS_SIZE = 20
 
 SMART_AGENTS = set()
 FOODS = set()
@@ -36,7 +36,7 @@ def food_spawner():
         FOODS.add(sim.Food(
             position=random_world_position(),
             # position=sim.vec2(0, 0),
-            size=20,
+            size=9,
             fill=sim.color(200, 50, 72)
         ))
 
@@ -79,4 +79,3 @@ while True:
 
     recycle(FOODS)
     recycle(SMART_AGENTS)
-    time.sleep(1 / 5)

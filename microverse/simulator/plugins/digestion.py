@@ -11,7 +11,7 @@ class Digestion:
             element_circle = element.position, element.size
             creature_circle = creature.position, creature.size
             if circles_intersect(element_circle, creature_circle):
-                amount_consumed = 0.4
+                amount_consumed = 1
                 creature.level_up(amount_consumed)
                 element.level_down(amount_consumed)
                 if element.is_dead():
