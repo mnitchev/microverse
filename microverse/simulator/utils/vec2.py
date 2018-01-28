@@ -50,7 +50,8 @@ class Vec2:
 
     def scale_to(self, n):
         vac_length = self.length
-        n /= vac_length
+        if vac_length != 0:
+            n /= vac_length
 
         return self.scale(n)
 

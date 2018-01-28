@@ -50,29 +50,27 @@ def line_circle_intersect(line, circle):
 
     if disc >= 0:
         disc_root = math.sqrt(disc)
-
         dy_sign = math.copysign(1, dy)
+        denominator = line_length * line_length
 
-        x1 = (det * dy + dy_sign * dx * disc_root) / \
-            (line_length * line_length)
-        x2 = (det * dy - dy_sign * dx * disc_root) / \
-            (line_length * line_length)
+        if denominator != 0:
+            x1 = (det * dy + dy_sign * dx * disc_root) / denominator
+            x2 = (det * dy - dy_sign * dx * disc_root) / denominator
 
-        y1 = (-det * dx + math.fabs(dy) * disc_root) / \
-            (line_length * line_length)
-        y2 = (-det * dx - math.fabs(dy) * disc_root) / \
-            (line_length * line_length)
+            y1 = (-det * dx + math.fabs(dy) * disc_root) / denominator
+            y2 = (-det * dx - math.fabs(dy) * disc_root) / denominator
 
-        first = vec2(x1, y1)
-        second = vec2(x2, y2)
+            first = vec2(x1, y1)
+            second = vec2(x2, y2)
 
-        first.add(center)
-        second.add(center)
+            first.add(center)
+            second.add(center)
 
-        intersections = first, second
+            intersections = first, second
 
-        return True, intersections
-    return False, (vec2(), vec2())
+            return True, intersections
+
+    return False, POINT_AT_INFINITY
 
 
 def line_line_intersect(first, second):
