@@ -26,7 +26,7 @@ class Agent(object):
     def steer(self, angle):
         self.velocity.rotate(angle)
 
-    def update(self, dt):
+    def update(self, dt=1):
         for plugin in self.plugins:
             piped_value = self
             for part in plugin:
@@ -42,6 +42,11 @@ class Agent(object):
         return self.health <= 0
 
     def render(self, renderer):
+        for plugin in self.plugins:
+            for part in plugin:
+                if hasattr(part, 'render'):
+                    part.render(renderer, self)
+
         renderer.arc(
             self.position.x,
             self.position.y,
@@ -50,7 +55,3 @@ class Agent(object):
             outline=color((1-self.health)*255, self.health*255).to_hex(),
             width=3
         )
-        for plugin in self.plugins:
-            for part in plugin:
-                if hasattr(part, 'render'):
-                    part.render(renderer, self)
