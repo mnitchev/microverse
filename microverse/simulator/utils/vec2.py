@@ -49,9 +49,9 @@ class Vec2:
         return self
 
     def scale_to(self, n):
-        vac_length = self.length
-        if vac_length != 0:
-            n /= vac_length
+        vec_length = self.length
+        if vec_length != 0:
+            n /= vec_length
 
         return self.scale(n)
 

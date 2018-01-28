@@ -17,12 +17,12 @@ class SmartAgent(Agent):
         self.collected_food = 0
         self.parent_fitness = parent_fitness
         self.sight = Sight(
-            fov=math.pi / 2,
-            ray_count=11,
+            fov=math.pi,
+            ray_count=9,
             strength=250,
             environment=environment
         )
-        self.brain = NeuralNetwork([11, 7, 2])
+        self.brain = NeuralNetwork([9, 2, 1])
         navigator = Navigator(steering_magnitude=0.01)
         digestion = Digestion(environment)
         mobility = Mobility()

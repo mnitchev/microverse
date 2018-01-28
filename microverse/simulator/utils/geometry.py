@@ -24,10 +24,17 @@ def ray_circle_intersect(ray, circle):
     first_distance = position.distance(first)
     second_distance = position.distance(second)
 
-    if first_distance < second_distance:
-        return valid, first_distance, first
+    min_x, max_x = __get_min_and_max(start.x, end.x)
+    min_y, max_y = __get_min_and_max(start.y, end.y)
 
-    return valid, second_distance, second
+    if first_distance > second_distance:
+        if min_x <= second.x and second.x <= max_x and min_y <= second.y and second.x <= max_y:
+            return True, second_distance, second
+
+    if min_x <= first.x and first.x <= max_x and min_y <= first.y and first.x <= max_y:
+        return True, first_distance, first
+
+    return False, math.inf, POINT_AT_INFINITY
 
 
 def line_circle_intersect(line, circle):

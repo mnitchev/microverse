@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 
 import sys
+import time
 import simulator as sim
 from random import randint as rnd
 
 
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 500
+HEIGHT = 500
 RENDERER = sim.Renderer(WIDTH, HEIGHT)
 
-SMART_AGENTS_SIZE = 13
-FOODS_SIZE = 40
+SMART_AGENTS_SIZE = 1
+FOODS_SIZE = 1
 
 SMART_AGENTS = set()
 FOODS = set()
+
 
 def select_parents(population):
     population = list(population)
@@ -33,6 +35,7 @@ def food_spawner():
     if len(FOODS) < FOODS_SIZE:
         FOODS.add(sim.Food(
             position=random_world_position(),
+            # position=sim.vec2(0, 0),
             size=20,
             fill=sim.color(200, 50, 72)
         ))
@@ -48,7 +51,7 @@ def smart_agent_spawner():
         new_agent.position = random_world_position()
         new_agent.size = 10
         new_agent.color = sim.color(0, 0, 255)
-        new_agent.velocity = sim.vec2(rnd(1, 2), rnd(1, 2)).scale_to(10)
+        new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(1)
 
         SMART_AGENTS.add(new_agent)
 
@@ -66,11 +69,14 @@ while True:
 
     for agent in SMART_AGENTS:
         agent.update()
-        agent.render(RENDERER)
-
     for food in FOODS:
         food.update()
+
+    for agent in SMART_AGENTS:
+        agent.render(RENDERER)
+    for food in FOODS:
         food.render(RENDERER)
 
     recycle(FOODS)
     recycle(SMART_AGENTS)
+    time.sleep(1 / 5)

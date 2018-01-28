@@ -44,4 +44,4 @@ class Renderer:
         )
 
     def origin_translate(self, x, y):
-        return self.origin_x + x, self.origin_y + y
+        return self.origin_x + x, self.origin_y - y
