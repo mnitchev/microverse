@@ -14,10 +14,10 @@ def print(*args):
 
 
 def main():
-    environment = []
+    environment = set()
     for i in range(0, 800, 100):
         for j in range(0, 600, 100):
-            environment.append(
+            environment.add(
                 sim.Food(position=sim.vec2(i - 400, j - 300), size=20))
 
     obstacles = [

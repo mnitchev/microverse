@@ -19,7 +19,7 @@ class SmartAgent(Agent):
             fov=math.pi / 2,
             ray_count=7,
             strength=50,
-            environment=environment + obstacles
+            environment=environment
         )
         brain = NeuralNetwork([7, 10, 1])
         navigator = Navigator(steering_magnitude=0.01)
