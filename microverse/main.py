@@ -9,16 +9,16 @@ WIDTH = 800
 HEIGHT = 600
 RENDERER = sim.Renderer(WIDTH, HEIGHT)
 
-SMART_AGENTS_SIZE = 10
-FOODS_SIZE = 20
+SMART_AGENTS_SIZE = 13
+FOODS_SIZE = 40
 
 SMART_AGENTS = set()
 FOODS = set()
 
-
 def select_parents(population):
     population = list(population)
     population.sort(key=lambda agent: -agent.fitness())
+    print(population[0].fitness(), flush=True)
     return population[:2]
 
 
@@ -33,7 +33,7 @@ def food_spawner():
     if len(FOODS) < FOODS_SIZE:
         FOODS.add(sim.Food(
             position=random_world_position(),
-            size=40,
+            size=20,
             fill=sim.color(200, 50, 72)
         ))
 

@@ -4,10 +4,11 @@ from ..utils import vec2, color
 class Agent(object):
     def __init__(
         self, position=vec2(),
-        velocity=vec2(),
+        velocity=vec2(1),
         size=1,
         fill=color(0, 0, 0)
     ):
+        self.time_alive = 0
         self.position = position
         self.velocity = velocity
         self.size = size
@@ -27,6 +28,7 @@ class Agent(object):
         self.velocity.rotate(angle)
 
     def update(self, dt=1):
+        self.time_alive += 1
         for plugin in self.plugins:
             piped_value = self
             for part in plugin:
@@ -40,6 +42,9 @@ class Agent(object):
 
     def is_dead(self):
         return self.health <= 0
+
+    def fitness(self):
+        return self.health
 
     def render(self, renderer):
         for plugin in self.plugins:

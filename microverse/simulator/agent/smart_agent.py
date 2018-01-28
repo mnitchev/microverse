@@ -12,16 +12,17 @@ from ..plugins import \
 
 
 class SmartAgent(Agent):
-    def __init__(self, environment, *args, **kwargs):
+    def __init__(self, environment, parent_fitness=0, *args, **kwargs):
         super(SmartAgent, self).__init__(*args, **kwargs)
-
+        self.collected_food = 0
+        self.parent_fitness = parent_fitness
         self.sight = Sight(
             fov=math.pi / 2,
-            ray_count=7,
+            ray_count=11,
             strength=250,
             environment=environment
         )
-        self.brain = NeuralNetwork([7, 10, 1])
+        self.brain = NeuralNetwork([11, 7, 2])
         navigator = Navigator(steering_magnitude=0.01)
         digestion = Digestion(environment)
         mobility = Mobility()
@@ -32,10 +33,15 @@ class SmartAgent(Agent):
         self.plug(mobility)
         self.plug(fatigue)
 
+    def level_up(self, amount):
+        super(SmartAgent, self).level_up(amount)
+        self.collected_food += 1
+
     def crossover(self, other):
-        child = SmartAgent(self.sight.environment)
+        child = SmartAgent(self.sight.environment, self.fitness())
         child.brain = self.brain.crossover(other.brain)
         return child
 
     def fitness(self):
-        return self.health
+        return self.time_alive
+        # return self.health * (self.collected_food + self.parent_fitness)
