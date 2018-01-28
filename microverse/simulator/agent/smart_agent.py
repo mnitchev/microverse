@@ -21,13 +21,21 @@ class SmartAgent(Agent):
             strength=50,
             environment=environment
         )
-        brain = NeuralNetwork([7, 10, 1])
+        self.brain = NeuralNetwork([7, 10, 1])
         navigator = Navigator(steering_magnitude=0.01)
         digestion = Digestion(environment=environment)
         mobility = Mobility(obstacles=obstacles)
         fatigue = Fatigue()
 
-        self.plug(sight, brain, navigator)
+        self.plug(sight, self.brain, navigator)
         self.plug(digestion)
         self.plug(mobility)
         self.plug(fatigue)
+
+    def crossover(self, other):
+        child = SmartAgent()
+        child.brain = self.brain.crossover(other.brain)
+        return child
+
+    def fitness(self):
+        return self.health

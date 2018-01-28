@@ -13,6 +13,10 @@ def print(*args):
     sys.stdout.flush()
 
 
+def spawn_smart_agent():
+    pass
+
+
 def main():
     environment = set()
     for i in range(0, 800, 100):

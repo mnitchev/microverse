@@ -2,6 +2,22 @@ import random
 import numpy as np
 
 
+def array_crossover(left, right):
+    result = []
+    for i in range(len(left)):
+        result.append(left[i] if random.random() < 0.5 else right[i])
+
+    return np.array(result)
+
+
+def matrix_crossover(left, right)
+    result = []
+    for left_row, right_row in zip(left, right):
+        result.push(array_crossover(left_row, right_row))
+
+    return np.array(result)
+
+
 def random_matrix(rows, cols):
     """Returns numpy matrix with values from the
     `standard normal` distribution.
@@ -31,6 +47,18 @@ class NeuralNetwork:
 
         self.weighted_layer = []
         self.activations = []
+
+    def crossover(self, other):
+        child = NeuralNetwork(self.sizes)
+
+        for i enumerate(len(self.biases)):
+            child.biases[i] = array_crossover(self.biases[i], other.biases[i])
+
+        for i enumerate(len(self.weights)):
+            child.weights[i] = matrix_crossover(
+                self.weights[i], other.weights[i])
+
+        return child
 
     def __call__(self, distances, _):
         return self.predict(distances)
