@@ -3,60 +3,59 @@
 import sys
 import simulator as sim
 from random import randint as rnd
-
-# Flush std out
-old_print = print
+from random import random as prob
 
 
-def print(*args):
-    old_print(*args)
-    sys.stdout.flush()
+WIDTH = 800
+HEIGHT = 600
+RENDERER = sim.Renderer(WIDTH, HEIGHT)
+
+SMART_AGENTS_SIZE = 10
+FOODS_SIZE = 10
+
+SMART_AGENTS = set()
+FOODS = set()
 
 
-def spawn_smart_agent():
-    pass
+def food_spawner():
+    if prob() < 0.1 and len(FOODS) < FOODS_SIZE:
+        FOODS.add(sim.Food(
+            position=sim.vec2(
+                rnd(-WIDTH / 2, WIDTH / 2),
+                rnd(-HEIGHT / 2, HEIGHT / 2)),
+            size=20,
+            fill=sim.color(200, 50, 72)
+        ))
 
 
-def main():
-    environment = set()
-    for i in range(0, 800, 100):
-        for j in range(0, 600, 100):
-            environment.add(
-                sim.Food(position=sim.vec2(i - 400, j - 300), size=20))
-
-    obstacles = [
-        sim.Wall(direction=sim.vec2(1, 0),
-                 position=sim.vec2(0, 300), size=400),
-        sim.Wall(direction=sim.vec2(1, 0),
-                 position=sim.vec2(0, -300), size=400),
-        sim.Wall(direction=sim.vec2(0, 1),
-                 position=sim.vec2(400, 0), size=300),
-        sim.Wall(direction=sim.vec2(0, 1),
-                 position=sim.vec2(-400, 0), size=300)
-    ]
-
-    engine = sim.Engine(
-        sim.Renderer(800, 600)
-    )
-
-    for _ in range(0, 20, 4):
-        smart_agent = sim.SmartAgent(
+def smart_agent_spawner():
+    if prob() < 0.1 and len(SMART_AGENTS) < SMART_AGENTS_SIZE:
+        SMART_AGENTS.add(sim.SmartAgent(
             position=sim.vec2(rnd(-300, 300), rnd(-200, 200)),
-            velocity=sim.vec2(rnd(-3, 3), rnd(-3, 3)).scale_to(6),
+            velocity=sim.vec2(rnd(1, 3), rnd(-3, 3)).scale_to(10),
             size=10,
-            environment=environment,
-            obstacles=obstacles,
+            environment=FOODS,
             fill=sim.color(0, 0, 255)
-        )
-        engine.add(smart_agent)
-    engine.add(*environment)
-
-    @sim.set_interval(1 / 40, start=True)
-    def loop():
-        print(smart_agent.position.x, smart_agent.position.y)
-        engine.update()
-        engine.render()
+        ))
 
 
-if __name__ == '__main__':
-    main()
+def recycle(items):
+    return {item for item in items if not item.is_dead()}
+
+
+while True:
+    food_spawner()
+    smart_agent_spawner()
+
+    RENDERER.update()
+
+    for agent in SMART_AGENTS:
+        agent.update()
+        agent.render(RENDERER)
+
+    for food in FOODS:
+        food.update()
+        food.render(RENDERER)
+
+    FOODS = recycle(FOODS)
+    SMART_AGENTS = recycle(SMART_AGENTS)
