@@ -32,7 +32,7 @@ class Renderer:
     def arc(self, x, y, r, **kwargs):
         x, y=self.origin_translate(x, y)
         self.canvas.create_oval(
-            x - r, y - r, x + r, y + r, **kwargs, outline = 'black'
+            x - r, y - r, x + r, y + r, **kwargs
         )
 
     def line(self, x_f, y_f, x_t, y_t, **kwargs):

@@ -7,7 +7,8 @@ from ..plugins import \
     NeuralNetwork, \
     Navigator, \
     Digestion, \
-    Mobility
+    Mobility, \
+    Fatigue
 
 
 class SmartAgent(Agent):
@@ -24,7 +25,9 @@ class SmartAgent(Agent):
         navigator = Navigator(steering_magnitude=0.01)
         digestion = Digestion(environment=environment)
         mobility = Mobility(obstacles=obstacles)
+        fatigue = Fatigue()
 
         self.plug(sight, brain, navigator)
         self.plug(digestion)
         self.plug(mobility)
+        self.plug(fatigue)

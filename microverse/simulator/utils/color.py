@@ -9,4 +9,4 @@ class Color(object):
         self.blue = blue
 
     def to_hex(self):
-        return '#%02x%02x%02x' % (self.red, self.green, self.blue)
+        return '#%02x%02x%02x' % (int(self.red), int(self.green), int(self.blue))

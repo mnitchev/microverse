@@ -32,11 +32,11 @@ class Agent(object):
             for part in plugin:
                 piped_value = part(piped_value, self)
 
-    def level_up(self):
-        self.health += 1
+    def level_up(self, amount=1):
+        self.health = min(self.health + amount, 1)
 
-    def level_down(self):
-        self.health -= 1
+    def level_down(self, amount=1):
+        self.health = max(self.health - amount, 0)
 
     def is_dead(self):
         return self.health <= 0
@@ -46,7 +46,9 @@ class Agent(object):
             self.position.x,
             self.position.y,
             self.size,
-            fill=self.color.to_hex()
+            fill=self.color.to_hex(),
+            outline=color((1-self.health)*255, self.health*255).to_hex(),
+            width=3
         )
         for plugin in self.plugins:
             for part in plugin:

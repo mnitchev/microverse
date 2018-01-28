@@ -2,6 +2,7 @@
 
 import sys
 import simulator as sim
+from random import randint as rnd
 
 # Flush std out
 old_print = print
@@ -34,15 +35,16 @@ def main():
         sim.Renderer(800, 600)
     )
 
-    smart_agent = sim.SmartAgent(
-        position=sim.vec2(-50, 0),
-        velocity=sim.vec2(5, 2),
-        size=10,
-        environment=environment,
-        obstacles=obstacles,
-        fill=sim.color(255, 0, 0)
-    )
-    engine.add(smart_agent)
+    for _ in range(0, 20, 4):
+        smart_agent = sim.SmartAgent(
+            position=sim.vec2(rnd(-300, 300), rnd(-200, 200)),
+            velocity=sim.vec2(rnd(-3, 3), rnd(-3, 3)).scale_to(6),
+            size=10,
+            environment=environment,
+            obstacles=obstacles,
+            fill=sim.color(0, 0, 255)
+        )
+        engine.add(smart_agent)
     engine.add(*environment)
 
     @sim.set_interval(1 / 40, start=True)
