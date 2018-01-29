@@ -1,21 +1,12 @@
 import random
-from random import randint
 import numpy as np
+from random import random as prob
+from random import randint
 
 
 def array_crossover(left, right):
-    result = []
-    for i in range(len(left)):
-        probability = random.random()
-        if probability < 0.1:
-            value = left[i]
-        if 0.1 <= probability < 0.45:
-            value = randint(-1, 1)
-        else:
-            value = right[i]
-
-        result.append(value)
-    return np.array(result)
+    sp = randint(0, len(left))
+    return np.concatenate((left[:sp], right[sp:]), axis=0)
 
 
 def matrix_crossover(left, right):

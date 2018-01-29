@@ -18,13 +18,13 @@ class SmartAgent(Agent):
         self.collected_food = 0
         self.parent_fitness = parent_fitness
         self.sight = Sight(
-            fov=math.sqrt(2) * math.pi / 6,
-            ray_count=9,
-            strength=125,
+            fov=math.pi / 3,
+            ray_count=11,
+            strength=700,
             environment=environment
         )
-        self.brain = NeuralNetwork([10, 16, 2])
-        navigator = Navigator(steering_magnitude=0.01)
+        self.brain = NeuralNetwork([12, 10, 7, 2])
+        navigator = Navigator()
         digestion = Digestion(environment)
         mobility = Mobility()
         fatigue = Fatigue()
@@ -45,5 +45,5 @@ class SmartAgent(Agent):
         return child
 
     def fitness(self):
-        return self.time_alive
+        return self.collected_food
         # return self.health * (self.collected_food + self.parent_fitness)

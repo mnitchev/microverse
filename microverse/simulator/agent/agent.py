@@ -35,7 +35,7 @@ class Agent(object):
                 piped_value = part(piped_value, self)
 
     def level_up(self, amount=1):
-        self.health = min(self.health + amount, 1)
+        self.health = min(self.health * 2, 1)
 
     def level_down(self, amount=1):
         self.health = max(self.health - amount, 0)
@@ -58,5 +58,5 @@ class Agent(object):
             self.size,
             fill=self.color.to_hex(),
             outline=color((1-self.health)*255, self.health*255).to_hex(),
-            width=3
+            width=self.fitness() / 4
         )

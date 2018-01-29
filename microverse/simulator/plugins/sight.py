@@ -15,14 +15,15 @@ class Sight(object):
 
     def __call__(self, creature, _):
         sight_directions = self.get_sight_directions(creature.velocity)
-        distances = []
+        self.distances = []
         self.intersections = []
 
         for sight_direction in sight_directions:
             closest_distance = math.inf
             for element in self.environment:
                 distance, intersection = element.intersect_ray(
-                    creature.position.copy, sight_direction.copy)
+                    creature.position.copy, sight_direction.copy
+                )
 
                 self.intersections.append(intersection)
 
@@ -32,20 +33,21 @@ class Sight(object):
                 if distance < closest_distance:
                     closest_distance = distance
 
-            distances.append(closest_distance)
+            distance_activation = (self.strength - closest_distance) / self.strength
+            self.distances.append(distance_activation)
 
-        return distances
+        return self.distances
 
     def render(self, renderer, agent):
         sight_directions = self.get_sight_directions(agent.velocity)
 
         for intersection in self.intersections:
             renderer.arc(intersection.x, intersection.y, 5, fill='red')
-        for sight_direction in sight_directions:
+        for i, sight_direction in enumerate(sight_directions):
             position, forward = agent.position.copy, sight_direction.copy
             end = position.copy.add(forward)
 
             renderer.line(
                 position.x, position.y,
-                end.x, end.y, fill='#ccc'
+                end.x, end.y, fill='#fff' if self.distances[i] == 0 else '#fcc'
             )
