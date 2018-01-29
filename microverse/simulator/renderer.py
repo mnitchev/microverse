@@ -18,7 +18,7 @@ class Renderer:
 
         self.tk.focus_set()
         self.canvas=Canvas(self.tk, width=self.width, height=self.height,
-                           borderwidth=0, highlightthickness=0, bg='white')
+                           borderwidth=0, highlightthickness=0, bg='#000')
         self.tk.bind("<Escape>", lambda e: sys.exit())
         self.tk.title('Title')
 

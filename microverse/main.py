@@ -40,7 +40,7 @@ def food_spawner():
     if len(FOODS) < FOODS_SIZE:
         FOODS.add(sim.Food(
             position=random_world_position(),
-            size=10,
+            size=20,
             fill=sim.color(200, 50, 72)
         ))
 
@@ -53,8 +53,8 @@ def smart_agent_spawner():
             new_agent = left_parent.crossover(right_parent)
 
         new_agent.position = random_world_position()
-        new_agent.size = 10
-        new_agent.color = sim.color(0, 0, 255)
+        new_agent.size = 15
+        new_agent.color = sim.color(0, 255, 255)
         new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(1)
 
         SMART_AGENTS.add(new_agent)
