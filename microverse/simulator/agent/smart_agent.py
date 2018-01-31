@@ -40,8 +40,5 @@ class SmartAgent(Agent):
         super(SmartAgent, self).level_up(amount)
         self.collected_food += 1
 
-    def crossover_brain(self, other):
-        return self.brain.crossover(other.brain)
-
     def fitness(self):
         return self.collected_food

@@ -4,10 +4,23 @@ from random import random as prob
 from random import randint
 
 
+def array_mutate(array, mutation_prob):
+    return np.array([
+        gene if prob() < mutation_prob else np.random.randn()
+        for gene in array
+    ])
+
+
+def matrix_mutate(matrix, mutation_prob):
+    result = []
+    for row in matrix:
+        result.append(array_mutate(row, mutation_prob))
+
+    return np.array(result)
+
 def array_crossover(left, right):
     sp = randint(0, len(left))
     return np.concatenate((left[:sp], right[sp:]), axis=0)
-
 
 def matrix_crossover(left, right):
     result = []
@@ -27,6 +40,10 @@ def random_matrix(rows, cols):
 def sigmoid(x):
     """Mapping z to ~1 if z >> 0 else ~0."""
     return 1 / (1 + np.exp(-x))
+
+
+def relu(x):
+    return np.array([max(i, 0) for i in x])
 
 
 class NeuralNetwork:
@@ -63,21 +80,24 @@ class NeuralNetwork:
         self.weighted_layer, self.activations = [], [a]
         for w, b in zip(self.weights, self.biases):
             z = w.dot(a) + b
-            a = sigmoid(z)
+            a = relu(z)
             self.weighted_layer.append(z)
             self.activations.append(a)
 
         return a
 
-    def crossover(self, other):
+    def crossover(self, other, mutation_prob):
         child = NeuralNetwork(self.sizes)
 
         for i in range(len(self.biases)):
-            child.biases[i] = array_crossover(self.biases[i], other.biases[i])
+            child.biases[i] = array_mutate(array_crossover(
+                self.biases[i], other.biases[i]
+            ), mutation_prob)
 
         for i in range(len(self.weights)):
-            child.weights[i] = matrix_crossover(
-                self.weights[i], other.weights[i])
+            child.weights[i] = matrix_mutate(matrix_crossover(
+                self.weights[i], other.weights[i]
+            ), mutation_prob)
 
         return child
 

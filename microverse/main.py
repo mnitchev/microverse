@@ -19,24 +19,11 @@ SMART_AGENTS = set()
 FOODS = set()
 
 
-def random_world_position():
-    return sim.vec2(
-        rnd(-WIDTH / 2, WIDTH / 2),
-        rnd(-HEIGHT / 2, HEIGHT / 2)
-    )
-
-
-def select_parents(population):
-    population = list(population)
-    population.sort(key=lambda agent: -agent.fitness())
-    return population[:2]
-
-
 def food_spawner():
     if len(FOODS) < FOODS_SIZE:
         FOODS.add(sim.Food(
             position=random_world_position(),
-            size=20,
+            size=10,
             fill=sim.color(200, 50, 72)
         ))
 
@@ -54,9 +41,24 @@ def smart_agent_spawner():
 
         if len(SMART_AGENTS) >= 2:
             left_parent, right_parent = select_parents(SMART_AGENTS)
-            new_agent.brain = left_parent.crossover_brain(right_parent)
+            new_agent.brain = left_parent.brain.crossover(
+                right_parent.brain, 0.05
+            )
 
         SMART_AGENTS.add(new_agent)
+
+
+def random_world_position():
+    return sim.vec2(
+        rnd(-WIDTH / 2, WIDTH / 2),
+        rnd(-HEIGHT / 2, HEIGHT / 2)
+    )
+
+
+def select_parents(population):
+    population = list(population)
+    population.sort(key=lambda agent: -agent.fitness())
+    return population[:2]
 
 
 def recycle(items):
