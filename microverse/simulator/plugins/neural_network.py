@@ -19,15 +19,24 @@ def matrix_mutate(matrix, mutation_prob):
     return np.array(result)
 
 def array_crossover(left, right):
-    sp = randint(0, len(left))
-    return np.concatenate((left[:sp], right[sp:]), axis=0)
+    probability = prob()
+    if probability < 0.5:
+        return left
+    else:
+        return right
+    # return np.concatenate((left[:sp], right[sp:]), axis=0)
 
 def matrix_crossover(left, right):
-    result = []
-    for left_row, right_row in zip(left, right):
-        result.append(array_crossover(left_row, right_row))
+    probability = prob()
+    if probability < 0.5:
+        return left
+    else:
+        return right
+    # result = []
+    # # for left_row, right_row in zip(left, right):
+    # #     result.append(array_crossover(left_row, right_row))
 
-    return np.array(result)
+    # return np.array(result)
 
 
 def random_matrix(rows, cols):

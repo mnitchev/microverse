@@ -3,7 +3,6 @@ from .neural_network import sigmoid
 
 class Navigator:
     def __call__(self, movement, creature):
-        print(movement, flush=True)
         creature.steer(movement[0])
         creature.steer(-movement[1])
         # creature.velocity.scale_to(movement[1] * 10)

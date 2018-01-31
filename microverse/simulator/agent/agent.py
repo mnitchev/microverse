@@ -35,7 +35,7 @@ class Agent(object):
                 piped_value = part(piped_value, self)
 
     def level_up(self, amount=1):
-        self.health = min(self.health * 2, 1)
+        self.health = min(self.health + amount * 0.33, 1)
 
     def level_down(self, amount=1):
         self.health = max(self.health - amount, 0)
