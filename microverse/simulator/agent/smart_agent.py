@@ -1,4 +1,5 @@
 import math
+from random import random as rand
 
 from .agent import Agent
 from ..utils import vec2
@@ -8,42 +9,39 @@ from ..plugins import \
     Navigator, \
     Digestion, \
     Mobility, \
-    Fatigue, \
-    HealthEmitter
+    Fatigue
 
 
 class SmartAgent(Agent):
-    def __init__(self, environment, parent_fitness=0, *args, **kwargs):
-        super(SmartAgent, self).__init__(*args, **kwargs)
+    def __init__(self, ray_count, strength, fov, environment, nn, *args):
+        super(SmartAgent, self).__init__(*args)
         self.collected_food = 0
-        self.parent_fitness = parent_fitness
         self.sight = Sight(
-            fov=math.pi,
-            ray_count=16,
-            strength=700,
+            fov=fov,
+            ray_count=ray_count,
+            strength=strength,
             environment=environment
         )
-        self.brain = NeuralNetwork([17, 10, 7, 5, 2])
+        self.brain = NeuralNetwork([self.sight.ray_count] + nn + [2])
         navigator = Navigator()
         digestion = Digestion(environment)
         mobility = Mobility()
         fatigue = Fatigue()
-        health_emitter = HealthEmitter()
 
-        self.plug(self.sight, health_emitter, self.brain, navigator)
+        self.plug(self.sight, self.brain, navigator)
         self.plug(digestion)
         self.plug(mobility)
         self.plug(fatigue)
+
+    def apply(self, sight, ):
+        self.sight = Sight(*args)
 
     def level_up(self, amount):
         super(SmartAgent, self).level_up(amount)
         self.collected_food += 1
 
-    def crossover(self, other):
-        child = SmartAgent(self.sight.environment, self.fitness())
-        child.brain = self.brain.crossover(other.brain)
-        return child
+    def crossover_brain(self, other):
+        return self.brain.crossover(other.brain)
 
     def fitness(self):
         return self.collected_food
-        # return self.health * (self.collected_food + self.parent_fitness)

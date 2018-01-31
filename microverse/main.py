@@ -5,6 +5,7 @@ import time
 import simulator as sim
 from random import randint as rnd
 from random import shuffle
+import math
 
 
 WIDTH = 800
@@ -18,22 +19,17 @@ SMART_AGENTS = set()
 FOODS = set()
 
 
-def select_parents(population):
-    population = list(population)
-    population.sort(key=lambda agent: -agent.fitness())
-    best = population[:5]
-    shuffle(best)
-
-    print(population[0].fitness(), flush=True)
-
-    return best[:2]
-
-
 def random_world_position():
     return sim.vec2(
         rnd(-WIDTH / 2, WIDTH / 2),
         rnd(-HEIGHT / 2, HEIGHT / 2)
     )
+
+
+def select_parents(population):
+    population = list(population)
+    population.sort(key=lambda agent: -agent.fitness())
+    return population[:2]
 
 
 def food_spawner():
@@ -47,15 +43,18 @@ def food_spawner():
 
 def smart_agent_spawner():
     if len(SMART_AGENTS) < SMART_AGENTS_SIZE:
-        new_agent = sim.SmartAgent(FOODS)
-        if len(SMART_AGENTS) >= 2:
-            left_parent, right_parent = select_parents(SMART_AGENTS)
-            new_agent = left_parent.crossover(right_parent)
-
+        new_agent = sim.SmartAgent(
+            environment=FOODS, ray_count=16,
+            strength=700, fov=math.pi, nn=[10]
+        )
         new_agent.position = random_world_position()
+        new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(1)
         new_agent.size = 15
         new_agent.color = sim.color(0, 255, 255)
-        new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(1)
+
+        if len(SMART_AGENTS) >= 2:
+            left_parent, right_parent = select_parents(SMART_AGENTS)
+            new_agent.brain = left_parent.crossover_brain(right_parent)
 
         SMART_AGENTS.add(new_agent)
 

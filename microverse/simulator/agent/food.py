@@ -11,10 +11,6 @@ class Food(Agent):
         self.color = color(0, 150, 0)
         self.initial_size = self.size
 
-    def level_down(self, amount):
-        super(Food, self).level_down(amount)
-        # self.size = self.health * self.initial_size
-
     def intersect_ray(self, creature_position, sight_direction):
         center, radius = self.position.copy, self.size
 

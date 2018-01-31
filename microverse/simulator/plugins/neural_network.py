@@ -47,21 +47,6 @@ class NeuralNetwork:
         self.weighted_layer = []
         self.activations = []
 
-    def crossover(self, other):
-        child = NeuralNetwork(self.sizes)
-
-        for i in range(len(self.biases)):
-            child.biases[i] = array_crossover(self.biases[i], other.biases[i])
-
-        for i in range(len(self.weights)):
-            child.weights[i] = matrix_crossover(
-                self.weights[i], other.weights[i])
-
-        return child
-
-    def __call__(self, distances, _):
-        return self.predict(distances)
-
     def predict(self, x):
         """Feed forward the network with the x vector and predict the
         maximal value from the output vector.
@@ -83,3 +68,18 @@ class NeuralNetwork:
             self.activations.append(a)
 
         return a
+
+    def crossover(self, other):
+        child = NeuralNetwork(self.sizes)
+
+        for i in range(len(self.biases)):
+            child.biases[i] = array_crossover(self.biases[i], other.biases[i])
+
+        for i in range(len(self.weights)):
+            child.weights[i] = matrix_crossover(
+                self.weights[i], other.weights[i])
+
+        return child
+
+    def __call__(self, distances, _):
+        return self._forward(distances)

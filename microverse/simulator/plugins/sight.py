@@ -6,10 +6,12 @@ class Sight(object):
     def __init__(self, fov, ray_count, strength, environment=[]):
         self.strength = strength
         self.environment = environment
-        self.ray_angles = [i / (ray_count - 1) * fov - fov / 2
-                           for i in range(ray_count)]
+        self.ray_count = ray_count
+        self.fov = fov
 
     def get_sight_directions(self, forward):
+        self.ray_angles = [i / (self.ray_count - 1) * self.fov - self.fov / 2
+                           for i in range(self.ray_count)]
         return [forward.copy.rotate(ray_angle).scale_to(self.strength)
                 for ray_angle in self.ray_angles]
 
