@@ -50,6 +50,6 @@ class Sight(object):
 
             renderer.line(
                 position.x, position.y,
-                end.x, end.y, fill='#666' if self.distances[i] == 0 else '#ff0',
+                end.x, end.y, fill='#ccc' if self.distances[i] == 0 else '#ff0',
                 width=1
             )

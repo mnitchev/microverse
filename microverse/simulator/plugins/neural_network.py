@@ -29,6 +29,10 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 
+def relu(x):
+    return np.array([max(0, i) for i in x])
+
+
 class NeuralNetwork:
     """NeuralNetwork class implements sigmoid neurons and `learns` the parameters
     fitting the data with the backpropagation algorithm.
