@@ -35,9 +35,8 @@ class Sight(object):
                 if distance < closest_distance:
                     closest_distance = distance
 
-            distance_activation = (
-                self.strength - closest_distance) / self.strength
-            self.distances.append(distance_activation)
+            da = (self.strength - closest_distance) / self.strength
+            self.distances.append(da)
 
         return self.distances
 
@@ -45,7 +44,7 @@ class Sight(object):
         sight_directions = self.get_sight_directions(agent.velocity)
 
         for intersection in self.intersections:
-            renderer.arc(intersection.x, intersection.y, 5, fill='red')
+            renderer.arc(intersection.x, intersection.y, 3, fill='#fc0')
         for i, sight_direction in enumerate(sight_directions):
             position, forward = agent.position.copy, sight_direction.copy
             end = position.copy.add(forward.copy.scale_to(30))
@@ -53,5 +52,5 @@ class Sight(object):
             renderer.line(
                 position.x, position.y,
                 end.x, end.y, fill='#666' if self.distances[i] == 0 else '#ff0',
-                width=1
+                width=3
             )

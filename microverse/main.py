@@ -13,7 +13,7 @@ HEIGHT = 600
 RENDERER = sim.Renderer(WIDTH, HEIGHT)
 
 SMART_AGENTS_SIZE = 10
-FOODS_SIZE = 5
+FOODS_SIZE = 10
 
 SMART_AGENTS = set()
 FOODS = set()
@@ -23,7 +23,7 @@ def food_spawner():
     if len(FOODS) < FOODS_SIZE:
         FOODS.add(sim.Food(
             position=random_world_position(),
-            size=10,
+            size=15,
             fill=sim.color(200, 50, 72)
         ))
 
@@ -36,8 +36,8 @@ def smart_agent_spawner():
         )
         new_agent.position = random_world_position()
         new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(3)
-        new_agent.size = 15
-        new_agent.color = sim.color(0, 255, 255)
+        new_agent.size = 20
+        new_agent.color = sim.color(120, 50, 250)
 
         if len(SMART_AGENTS) >= 2:
             left_parent, right_parent = select_parents(SMART_AGENTS)
@@ -57,9 +57,8 @@ def random_world_position():
 
 
 def select_parents(population):
-    population = list(population)
-    population.sort(key=lambda agent: -agent.fitness())
-    return population[:2]
+    return sorted(list(population),
+                  key=lambda agent: -agent.fitness())[:2]
 
 
 def recycle(items):

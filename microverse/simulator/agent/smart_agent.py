@@ -53,7 +53,7 @@ class SmartAgent(Agent):
                 renderer.line(
                     self.position.x, self.position.y,
                     self.parents[i].position.x, self.parents[i].position.y,
-                    fill='#444'
+                    fill='#222'
                 )
                 if self.parents[i].is_dead():
                     self.parents[i] = None
