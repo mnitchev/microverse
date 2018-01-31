@@ -30,7 +30,7 @@ class Renderer:
         self.canvas.delete('all')
 
     def arc(self, x, y, r, **kwargs):
-        x, y=self.origin_translate(x, y)
+        x, y = self.origin_translate(x, y)
         self.canvas.create_oval(
             x - r, y - r, x + r, y + r, **kwargs
         )
@@ -41,6 +41,12 @@ class Renderer:
         
         self.canvas.create_line(
             x_f, y_f, x_t, y_t, **kwargs
+        )
+
+    def text(self, x, y, **kwargs):
+        x, y = self.origin_translate(x, y)
+        self.canvas.create_text(
+            x, y, **kwargs
         )
 
     def origin_translate(self, x, y):

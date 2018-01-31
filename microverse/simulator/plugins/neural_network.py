@@ -80,7 +80,7 @@ class NeuralNetwork:
         self.weighted_layer, self.activations = [], [a]
         for w, b in zip(self.weights, self.biases):
             z = w.dot(a) + b
-            a = relu(z)
+            a = sigmoid(z)
             self.weighted_layer.append(z)
             self.activations.append(a)
 

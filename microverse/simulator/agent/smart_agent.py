@@ -13,7 +13,10 @@ from ..plugins import \
 
 
 class SmartAgent(Agent):
-    def __init__(self, ray_count, strength, fov, environment, nn, *args):
+    def __init__(
+        self, ray_count, strength, fov,
+        environment, nn, parents=[None, None], *args
+    ):
         super(SmartAgent, self).__init__(*args)
         self.collected_food = 0
         self.sight = Sight(
@@ -22,7 +25,8 @@ class SmartAgent(Agent):
             strength=strength,
             environment=environment
         )
-        self.brain = NeuralNetwork([self.sight.ray_count] + nn + [2])
+        self.brain = NeuralNetwork([self.sight.ray_count] + nn + [3])
+        self.parents = parents
         navigator = Navigator()
         digestion = Digestion(environment)
         mobility = Mobility()
@@ -42,3 +46,16 @@ class SmartAgent(Agent):
 
     def fitness(self):
         return self.collected_food
+
+    def render(self, renderer):
+        for i in range(len(self.parents)):
+            if self.parents[i] is not None:
+                renderer.line(
+                    self.position.x, self.position.y,
+                    self.parents[i].position.x, self.parents[i].position.y,
+                    fill='#444'
+                )
+                if self.parents[i].is_dead():
+                    self.parents[i] = None
+
+        super(SmartAgent, self).render(renderer)

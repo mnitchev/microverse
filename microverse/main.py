@@ -31,11 +31,11 @@ def food_spawner():
 def smart_agent_spawner():
     if len(SMART_AGENTS) < SMART_AGENTS_SIZE:
         new_agent = sim.SmartAgent(
-            environment=FOODS, ray_count=16,
-            strength=700, fov=math.pi, nn=[10]
+            environment=FOODS, ray_count=9,
+            strength=1000, fov=math.pi / 2, nn=[5]
         )
         new_agent.position = random_world_position()
-        new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(1)
+        new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(3)
         new_agent.size = 15
         new_agent.color = sim.color(0, 255, 255)
 
@@ -44,6 +44,7 @@ def smart_agent_spawner():
             new_agent.brain = left_parent.brain.crossover(
                 right_parent.brain, 0.05
             )
+            new_agent.parents = [left_parent, right_parent]
 
         SMART_AGENTS.add(new_agent)
 

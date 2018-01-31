@@ -57,6 +57,13 @@ class Agent(object):
             self.position.y,
             self.size,
             fill=self.color.to_hex(),
-            outline=color((1 - self.health) * 255, self.health*255).to_hex(),
+            outline=color((1 - self.health) * 255, self.health * 255).to_hex(),
             width=self.fitness() / 10 + 2
+        )
+
+        renderer.text(
+            self.position.x,
+            self.position.y,
+            text='F:' + str(self.fitness()),
+            fill='#000'
         )
