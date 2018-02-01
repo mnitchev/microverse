@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 
-import sys
-import time
-import simulator as sim
-from random import randint as rnd
-from random import shuffle
 import math
+from random import randint as rnd
+import simulator as sim
 
 
 WIDTH = 800
 HEIGHT = 600
-RENDERER = sim.Renderer(WIDTH, HEIGHT)
+RENDERER = sim.Renderer(WIDTH, HEIGHT, title='Microverse')
 
 SMART_AGENTS_SIZE = 10
 FOODS_SIZE = 10
@@ -24,7 +21,7 @@ def food_spawner():
         FOODS.add(sim.Food(
             position=random_world_position(),
             size=15,
-            fill=sim.color(200, 50, 72)
+            fill=sim.color(102, 217, 239)
         ))
 
 
@@ -37,7 +34,7 @@ def smart_agent_spawner():
         new_agent.position = random_world_position()
         new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(3)
         new_agent.size = 20
-        new_agent.color = sim.color(120, 50, 250)
+        new_agent.color = sim.color(249, 38, 114)
 
         if len(SMART_AGENTS) >= 2:
             left_parent, right_parent = select_parents(SMART_AGENTS)
@@ -66,7 +63,7 @@ def recycle(items):
         items.remove(dead_item)
 
 
-while True:
+while RENDERER.is_running:
     food_spawner()
     smart_agent_spawner()
 

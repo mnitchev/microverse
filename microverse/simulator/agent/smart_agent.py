@@ -37,9 +37,6 @@ class SmartAgent(Agent):
         self.plug(mobility)
         self.plug(fatigue)
 
-    def apply(self, sight, ):
-        self.sight = Sight(*args)
-
     def level_up(self, amount):
         super(SmartAgent, self).level_up(amount)
         self.collected_food += 1

@@ -44,7 +44,8 @@ class Sight(object):
         sight_directions = self.get_sight_directions(agent.velocity)
 
         for intersection in self.intersections:
-            renderer.arc(intersection.x, intersection.y, 3, fill='#fc0')
+            renderer.arc(intersection.x, intersection.y, 4, fill='#C7D0CC')
+
         for i, sight_direction in enumerate(sight_directions):
             position, forward = agent.position.copy, sight_direction.copy
             end = position.copy.add(forward.copy.scale_to(30))
@@ -52,5 +53,5 @@ class Sight(object):
             renderer.line(
                 position.x, position.y,
                 end.x, end.y, fill='#666' if self.distances[i] == 0 else '#ff0',
-                width=3
+                width=2
             )

@@ -73,5 +73,5 @@ class Agent(object):
             self.position.x,
             self.position.y,
             text='F:' + str(self.fitness()),
-            fill='#fff'
+            fill='#000'
         )

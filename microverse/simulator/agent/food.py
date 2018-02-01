@@ -8,7 +8,6 @@ MAX_FOOD_HEALTH = 1
 class Food(Agent):
     def __init__(self, *args, **kwargs):
         super(Food, self).__init__(*args, **kwargs)
-        self.color = color(0, 150, 0)
         self.initial_size = self.size
 
     def intersect_ray(self, creature_position, sight_direction):
