@@ -1,3 +1,4 @@
+import json
 import random
 import numpy as np
 from random import random as prob
@@ -18,9 +19,11 @@ def matrix_mutate(matrix, mutation_prob):
 
     return np.array(result)
 
+
 def array_crossover(left, right):
     sp = randint(0, len(left))
     return np.concatenate((left[:sp], right[sp:]), axis=0)
+
 
 def matrix_crossover(left, right):
     result = []
@@ -103,3 +106,26 @@ class NeuralNetwork:
 
     def __call__(self, distances, _):
         return self._forward(distances)
+
+    def _get_weights(self):
+        return [[list(r) for r in w] for w in self.weights]
+
+    def _get_biases(self):
+        return [list(b) for b in self.biases]
+
+    def file_export(self, file_name):
+        with open(file_name, 'w') as file:
+            json_nn = json.dumps({
+                'weights': self._get_weights(),
+                'biases': self._get_biases()
+            }, sort_keys=True, indent=2)
+            file.write(json_nn)
+            print(self.biases, flush=True)
+
+    def file_import(self, file_name):
+        with open(file_name, 'r') as file:
+            content = file.read()
+            if content != '':
+                data = json.loads(content)
+                self.weights = [np.array(w) for w in data['weights']]
+                self.biases = [np.array(b) for b in data['biases']]

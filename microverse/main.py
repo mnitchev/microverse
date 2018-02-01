@@ -15,12 +15,16 @@ FOODS_SIZE = 10
 SMART_AGENTS = set()
 FOODS = set()
 
+SNAPSHOT_INTERVAL = 500
+NN_FILE = 'assets/brain.json'
+TIME = 1
+
 
 def food_spawner():
     if len(FOODS) < FOODS_SIZE:
         FOODS.add(sim.Food(
             position=random_world_position(),
-            velocity=sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(3),
+            velocity=sim.vec2(0, 1),
             size=15, fill=sim.color(102, 217, 239)
         ))
 
@@ -31,6 +35,7 @@ def smart_agent_spawner():
             environment=FOODS, ray_count=9,
             strength=1000, fov=math.pi / 2, nn=[5]
         )
+        new_agent.brain.file_import(NN_FILE)
         new_agent.position = random_world_position()
         new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(3)
         new_agent.size = 20
@@ -39,7 +44,7 @@ def smart_agent_spawner():
         if len(SMART_AGENTS) >= 2:
             left_parent, right_parent = select_parents(SMART_AGENTS)
             new_agent.brain = left_parent.brain.crossover(
-                right_parent.brain, 0.05
+                right_parent.brain, 0.0
             )
             new_agent.parents = [left_parent, right_parent]
 
@@ -65,9 +70,12 @@ def recycle(items):
 
 def focus_best():
     best_agent = max(SMART_AGENTS, key=lambda a: a.fitness())
-    for agent in SMART_AGENTS:
-        agent.focus = False
+    for smart_agent in SMART_AGENTS:
+        smart_agent.focus = False
     best_agent.focus = True
+
+    if TIME % SNAPSHOT_INTERVAL == 0:
+        best_agent.brain.file_export(NN_FILE)
 
 
 while RENDERER.is_running:
@@ -89,3 +97,5 @@ while RENDERER.is_running:
     recycle(FOODS)
     recycle(SMART_AGENTS)
     focus_best()
+
+    TIME += 1
