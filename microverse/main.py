@@ -23,11 +23,7 @@ DEAD_AGENTS = set()
 
 def initializeAgents():
     for _ in range(SMART_AGENTS_SIZE):
-        new_agent = sim.SmartAgent(FOODS)
-        new_agent.position = random_world_position()
-        new_agent.size = 15
-        new_agent.color = sim.color(0, 255, 255)
-        new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(1)
+        new_agent = create_brainless_agent()
         SMART_AGENTS.add(new_agent)
 
 
@@ -57,11 +53,24 @@ def smart_agent_spawner():
 
 
 def create_new_agent(left_parent, right_parent):
-    new_agent = left_parent.crossover(right_parent)
+    new_agent = create_brainless_agent()
+    # left_parent, right_parent = select_parents(SMART_AGENTS)
+    new_agent.brain = left_parent.brain.crossover(
+        right_parent.brain, 0.05
+    )
+    new_agent.parents = [left_parent, right_parent]
+    return new_agent
+
+
+def create_brainless_agent():
+    new_agent = sim.SmartAgent(
+        environment=FOODS, ray_count=9,
+        strength=1000, fov=math.pi / 2, nn=[5]
+    )
     new_agent.position = random_world_position()
-    new_agent.size = 15
-    new_agent.color = sim.color(0, 255, 255)
-    new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(1)
+    new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(3)
+    new_agent.size = 20
+    new_agent.color = sim.color(120, 50, 250)
     return new_agent
 
 
@@ -91,6 +100,7 @@ def select_parents(population):
 def recycle(items):
     for dead_item in [item for item in items if item.is_dead()]:
         items.remove(dead_item)
+
 
 initializeAgents()
 

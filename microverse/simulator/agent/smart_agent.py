@@ -37,21 +37,10 @@ class SmartAgent(Agent):
         self.plug(mobility)
         self.plug(fatigue)
 
-    def apply(self, sight, ):
-        self.sight = Sight(*args)
-
     def level_up(self, amount):
         super(SmartAgent, self).level_up(amount)
         self.collected_food += 1
 
-<<<<<<< HEAD
-=======
-    def crossover(self, other):
-        child = SmartAgent(self.sight.environment)
-        child.brain = self.brain.crossover(other.brain)
-        return child
-
->>>>>>> bad-model
     def fitness(self):
         return self.collected_food
 
