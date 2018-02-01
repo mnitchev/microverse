@@ -43,7 +43,7 @@ def sigmoid(x):
 
 
 def relu(x):
-    return np.array([max(i, 0) for i in x])
+    return np.array([max(0, i) for i in x])
 
 
 class NeuralNetwork:

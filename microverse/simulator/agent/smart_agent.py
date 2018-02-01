@@ -44,6 +44,14 @@ class SmartAgent(Agent):
         super(SmartAgent, self).level_up(amount)
         self.collected_food += 1
 
+<<<<<<< HEAD
+=======
+    def crossover(self, other):
+        child = SmartAgent(self.sight.environment)
+        child.brain = self.brain.crossover(other.brain)
+        return child
+
+>>>>>>> bad-model
     def fitness(self):
         return self.collected_food
 
