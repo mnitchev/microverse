@@ -20,8 +20,8 @@ def food_spawner():
     if len(FOODS) < FOODS_SIZE:
         FOODS.add(sim.Food(
             position=random_world_position(),
-            size=15,
-            fill=sim.color(102, 217, 239)
+            velocity=sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(3),
+            size=15, fill=sim.color(102, 217, 239)
         ))
 
 
@@ -34,7 +34,7 @@ def smart_agent_spawner():
         new_agent.position = random_world_position()
         new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(3)
         new_agent.size = 20
-        new_agent.color = sim.color(249, 38, 114)
+        new_agent.color = sim.color(229, 38, 154)
 
         if len(SMART_AGENTS) >= 2:
             left_parent, right_parent = select_parents(SMART_AGENTS)
@@ -63,6 +63,13 @@ def recycle(items):
         items.remove(dead_item)
 
 
+def focus_best():
+    best_agent = max(SMART_AGENTS, key=lambda a: a.fitness())
+    for agent in SMART_AGENTS:
+        agent.focus = False
+    best_agent.focus = True
+
+
 while RENDERER.is_running:
     food_spawner()
     smart_agent_spawner()
@@ -81,3 +88,4 @@ while RENDERER.is_running:
 
     recycle(FOODS)
     recycle(SMART_AGENTS)
+    focus_best()
