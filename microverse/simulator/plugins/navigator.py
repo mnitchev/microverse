@@ -5,6 +5,7 @@ class Navigator:
     def __call__(self, movement, creature):
         # creature.steer(movement[0])
         # creature.steer(-movement[1])
+
         creature.steer(movement[0] * 2 - 1)
         creature.velocity.scale_to(movement[1] * 10)
 
