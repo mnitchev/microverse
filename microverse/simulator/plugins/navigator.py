@@ -1,3 +1,4 @@
+from ..utils import color
 from .neural_network import sigmoid
 
 
@@ -8,6 +9,7 @@ class Navigator:
 
         creature.steer(movement[0] * 2 - 1)
         creature.velocity.scale_to(movement[1] * 10)
+        creature.color = color(movement[2]*255, movement[3]*255, movement[4]*255)
 
         # speed = creature.velocity.copy.scale_to((movement[2] * 2 - 1) * 4)
         # if creature.velocity.copy.add(speed).length < 8:
