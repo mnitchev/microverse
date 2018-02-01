@@ -44,7 +44,7 @@ def smart_agent_spawner():
         if len(SMART_AGENTS) >= 2:
             left_parent, right_parent = select_parents(SMART_AGENTS)
             new_agent.brain = left_parent.brain.crossover(
-                right_parent.brain, 0.0
+                right_parent.brain, 0.01
             )
             new_agent.parents = [left_parent, right_parent]
 

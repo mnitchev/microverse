@@ -7,7 +7,7 @@ from random import randint
 
 def array_mutate(array, mutation_prob):
     return np.array([
-        gene if prob() < mutation_prob else np.random.randn()
+        gene if prob() < mutation_prob else gene + np.random.randn() / 20
         for gene in array
     ])
 
@@ -120,7 +120,6 @@ class NeuralNetwork:
                 'biases': self._get_biases()
             }, sort_keys=True, indent=2)
             file.write(json_nn)
-            print(self.biases, flush=True)
 
     def file_import(self, file_name):
         with open(file_name, 'r') as file:
