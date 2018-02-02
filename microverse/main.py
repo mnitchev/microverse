@@ -35,7 +35,7 @@ def smart_agent_spawner():
             environment=FOODS, ray_count=9,
             strength=1000, fov=math.pi / 2, nn=[5]
         )
-        # new_agent.brain.file_import(NN_FILE)
+        new_agent.brain.file_import(NN_FILE)
         new_agent.position = random_world_position()
         new_agent.velocity = sim.vec2(rnd(1, 2), rnd(-1, 2)).scale_to(3)
         new_agent.size = 20

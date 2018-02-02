@@ -26,7 +26,7 @@ class SmartAgent(Agent):
             strength=strength,
             environment=environment
         )
-        self.brain = NeuralNetwork([self.sight.ray_count] + nn + [5])
+        self.brain = NeuralNetwork([self.sight.ray_count] + nn + [3])
         self.parents = parents
         navigator = Navigator()
         digestion = Digestion(environment)
