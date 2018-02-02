@@ -28,9 +28,6 @@ class Renderer:
         # self.canvas.grid()
         self.canvas.pack()
 
-    def destroy(self):
-        self.root.destroy()
-
     def update(self):
         self.frame += 1
         self.root.title(self.title + ' : ' + str(self.frame))

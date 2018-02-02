@@ -42,7 +42,8 @@ def food_spawner():
         FOODS.add(sim.Food(
             position=random_world_position(),
             size=10,
-            fill=sim.color(200, 50, 72)
+            fill=sim.color(200, 50, 72),
+            velocity=sim.vec2(0, 5)
         ))
 
 
@@ -71,10 +72,6 @@ def smart_agent_spawner(max_fitness):
             parents = choice(best, 2, replace=False, p=probabilities)
             left_parent, right_parent = parents[0], parents[1]
             new_agent = create_new_agent(left_parent, right_parent)
-            new_agent.brain.file_export("retard.json")
-
-            new_agent = create_brainless_agent()
-            new_agent.brain.file_import("retard.json")
             SMART_AGENTS.add(new_agent)
         DEAD_AGENTS.clear()
     return max_fitness
@@ -149,26 +146,27 @@ def focus_best():
         best_agent.brain.file_export(NN_FILE)
 
 
-def main():
-    max_fitness = 260
+max_fitness = 260
 
-    initializeAgents()
-    while RENDERER.is_running:
-        food_spawner()
-        max_fitness = smart_agent_spawner(max_fitness)
+initializeAgents()
+while RENDERER.is_running:
+    food_spawner()
+    max_fitness = smart_agent_spawner(max_fitness)
 
-        for agent in SMART_AGENTS:
-            agent.render(RENDERER)
-        for food in FOODS:
-            food.render(RENDERER)
+    RENDERER.update()
+    for agent in SMART_AGENTS:
+        agent.update()
+    for food in FOODS:
+        food.update()
 
-        recycle_food()
-        recycle_agents()
-        recycle(FOODS)
-        recycle(SMART_AGENTS)
-        focus_best()
+    for agent in SMART_AGENTS:
+        agent.render(RENDERER)
+    for food in FOODS:
+        food.render(RENDERER)
 
-        TIME += 1
-
-
-main()
+    recycle_food()
+    recycle_agents()
+    recycle(FOODS)
+    recycle(SMART_AGENTS)
+    focus_best()
+    TIME += 1
