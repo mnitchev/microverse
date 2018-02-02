@@ -2,11 +2,12 @@ import random
 import numpy as np
 from random import random as prob
 from random import randint
+import json
 
 
 def array_mutate(array, mutation_prob):
     return np.array([
-        gene if prob() < mutation_prob else np.random.randn()
+        gene if prob() < mutation_prob else gene + np.random.uniform(-0.3, 0.3)
         for gene in array
     ])
 
@@ -18,16 +19,30 @@ def matrix_mutate(matrix, mutation_prob):
 
     return np.array(result)
 
-def array_crossover(left, right):
-    sp = randint(0, len(left))
-    return np.concatenate((left[:sp], right[sp:]), axis=0)
 
-def matrix_crossover(left, right):
-    result = []
-    for left_row, right_row in zip(left, right):
-        result.append(array_crossover(left_row, right_row))
+def simple_crossover(left, right, crossover_prob):
+    probability = prob()
+    if probability < crossover_prob:
+        return left
+    else:
+        return right
+    # return np.concatenate((left[:sp], right[sp:]), axis=0)
 
-    return np.array(result)
+
+def matrix_crossover(left, right, crossover_prob):
+    probability = prob()
+    if probability < 0.5:
+        return simple_crossover(left, right, crossover_prob)
+    else:
+        return neuron_weight_crossover(left, right, crossover_prob)
+
+
+def neuron_weight_crossover(left, right, crossover_prob):
+    columns = []
+    for i in range(0, len(left[0])):
+        column = simple_crossover(left[:, i], right[:, i], crossover_prob)
+        columns.append(column)
+    return np.column_stack((columns))
 
 
 def random_matrix(rows, cols):
@@ -40,6 +55,10 @@ def random_matrix(rows, cols):
 def sigmoid(x):
     """Mapping z to ~1 if z >> 0 else ~0."""
     return 1 / (1 + np.exp(-x))
+
+
+def identity(x):
+    return np.array([i * 0.2 for i in x])
 
 
 def relu(x):
@@ -86,20 +105,54 @@ class NeuralNetwork:
 
         return a
 
-    def crossover(self, other, mutation_prob):
+    def crossover(self, other, crossover_prob, mutation_prob):
         child = NeuralNetwork(self.sizes)
-
+        # print("**************************", flush=True)
+        # print("LEFT:", self.weights,  flush=True)
+        # print("RIGHT:", other.weights,  flush=True)
         for i in range(len(self.biases)):
-            child.biases[i] = array_mutate(array_crossover(
-                self.biases[i], other.biases[i]
+            # child.biases[i] = simple_crossover(
+            #     self.biases[i], other.biases[i]
+            # )
+            child.biases[i] = array_mutate(simple_crossover(
+                self.biases[i], other.biases[i],
+                crossover_prob
             ), mutation_prob)
 
         for i in range(len(self.weights)):
+            # child.weights[i] = matrix_crossover(
+            #     self.weights[i], other.weights[i]
+            # )
             child.weights[i] = matrix_mutate(matrix_crossover(
-                self.weights[i], other.weights[i]
+                self.weights[i], other.weights[i],
+                crossover_prob
             ), mutation_prob)
 
+        # print("RESULT:", child.weights,  flush=True)
+        # print("**************************", flush=True)
         return child
 
     def __call__(self, distances, _):
         return self._forward(distances)
+
+    def _get_weights(self):
+        return [[list(r) for r in w] for w in self.weights]
+
+    def _get_biases(self):
+        return [list(b) for b in self.biases]
+
+    def file_export(self, file_name):
+        with open(file_name, 'w') as file:
+            json_nn = json.dumps({
+                'weights': self._get_weights(),
+                'biases': self._get_biases()
+            }, sort_keys=True, indent=2)
+            file.write(json_nn)
+
+    def file_import(self, file_name):
+        with open(file_name, 'r') as file:
+            content = file.read()
+            if content != '':
+                data = json.loads(content)
+                self.weights = [np.array(w) for w in data['weights']]
+                self.biases = [np.array(b) for b in data['biases']]

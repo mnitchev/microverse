@@ -35,7 +35,7 @@ class Agent(object):
                 piped_value = part(piped_value, self)
 
     def level_up(self, amount=1):
-        self.health = min(self.health + amount, 1)
+        self.health = min(self.health + amount * 0.33, 1)
 
     def level_down(self, amount=1):
         self.health = max(self.health - amount, 0)
@@ -72,6 +72,6 @@ class Agent(object):
         renderer.text(
             self.position.x,
             self.position.y,
-            text='F:' + str(self.fitness()),
+            text=str(self.fitness()),
             fill='#fff'
         )

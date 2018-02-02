@@ -3,10 +3,13 @@ from ..utils import vec2
 
 class Mobility(object):
     def __call__(self, creature, _):
-        new_position = creature.position.copy.add(creature.velocity)
+        creature.position.add(creature.velocity)
+        if creature.position.x > 400:
+            creature.position.x = 400
+        if creature.position.x < -400:
+            creature.position.x = -400
 
-        if new_position.x < 400 - creature.size and new_position.x > -400 + creature.size:
-            creature.position.x = new_position.x
-
-        if new_position.y < 300 - creature.size and new_position.y > -300 + creature.size:
-            creature.position.y = new_position.y
+        if creature.position.y > 300:
+            creature.position.y = 300
+        if creature.position.y < -300:
+            creature.position.y = -300
