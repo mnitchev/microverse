@@ -8,12 +8,14 @@ from numpy.random import choice
 from random import randint as rnd
 from random import shuffle
 import math
+from random import randint as rnd
+import simulator as sim
 
 AGENT_FILE = "agent.json"
 
 WIDTH = 800
 HEIGHT = 600
-RENDERER = sim.Renderer(WIDTH, HEIGHT)
+RENDERER = sim.Renderer(WIDTH, HEIGHT, title='Microverse')
 
 SMART_AGENTS_SIZE = 10
 FOODS_SIZE = 15
@@ -28,6 +30,11 @@ def initializeAgents():
         new_agent = create_brainless_agent()
         # new_agent.brain.file_import(AGENT_FILE)
         SMART_AGENTS.add(new_agent)
+
+
+SNAPSHOT_INTERVAL = 500
+NN_FILE = 'assets/brain.json'
+TIME = 1
 
 
 def food_spawner():
@@ -132,21 +139,23 @@ def recycle(items):
         items.remove(dead_item)
 
 
+def focus_best():
+    best_agent = max(SMART_AGENTS, key=lambda a: a.fitness())
+    for smart_agent in SMART_AGENTS:
+        smart_agent.focus = False
+    best_agent.focus = True
+
+    if TIME % SNAPSHOT_INTERVAL == 0:
+        best_agent.brain.file_export(NN_FILE)
+
+
 def main():
     max_fitness = 260
 
     initializeAgents()
-    print("Initial agents size:", len(SMART_AGENTS), flush=True)
-    while True:
+    while RENDERER.is_running:
         food_spawner()
         max_fitness = smart_agent_spawner(max_fitness)
-
-        RENDERER.update()
-
-        for agent in SMART_AGENTS:
-            agent.update()
-        for food in FOODS:
-            food.update()
 
         for agent in SMART_AGENTS:
             agent.render(RENDERER)
@@ -155,6 +164,11 @@ def main():
 
         recycle_food()
         recycle_agents()
+        recycle(FOODS)
+        recycle(SMART_AGENTS)
+        focus_best()
+
+        TIME += 1
 
 
 main()

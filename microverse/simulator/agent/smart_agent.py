@@ -19,6 +19,7 @@ class SmartAgent(Agent):
     ):
         super(SmartAgent, self).__init__(*args)
         self.collected_food = 0
+        self.focus = False
         self.sight = Sight(
             fov=fov,
             ray_count=ray_count,
@@ -54,5 +55,13 @@ class SmartAgent(Agent):
                 )
                 if self.parents[i].is_dead():
                     self.parents[i] = None
+
+        if self.focus:
+            renderer.arc(
+                self.position.x, self.position.y,
+                self.size,
+                outline='#0f6',
+                width=5
+            )
 
         super(SmartAgent, self).render(renderer)
