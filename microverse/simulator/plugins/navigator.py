@@ -8,7 +8,7 @@ class Navigator:
         # creature.steer(-movement[1])
 
         creature.steer(movement[0] * 2 - 1)
-        creature.velocity.scale_to(movement[1] * 10)
+        creature.velocity.scale_to(movement[1] * 15)
 
         # speed = creature.velocity.copy.scale_to((movement[2] * 2 - 1) * 4)
         # if creature.velocity.copy.add(speed).length < 8:

@@ -2,6 +2,7 @@
 
 import math
 from random import randint as rnd
+from random import shuffle
 import simulator as sim
 
 
@@ -10,7 +11,7 @@ HEIGHT = 600
 RENDERER = sim.Renderer(WIDTH, HEIGHT, title='Microverse')
 
 SMART_AGENTS_SIZE = 10
-FOODS_SIZE = 10
+FOODS_SIZE = 5
 
 SMART_AGENTS = set()
 FOODS = set()
@@ -24,7 +25,7 @@ def food_spawner():
     if len(FOODS) < FOODS_SIZE:
         FOODS.add(sim.Food(
             position=random_world_position(),
-            velocity=sim.vec2(0, 1),
+            velocity=sim.vec2(0, 5),
             size=15, fill=sim.color(102, 217, 239)
         ))
 
@@ -41,11 +42,12 @@ def smart_agent_spawner():
         new_agent.size = 20
         new_agent.color = sim.color(229, 38, 154)
 
-        if len(SMART_AGENTS) >= 2:
+        if len(SMART_AGENTS) >= SMART_AGENTS_SIZE - 2:
             left_parent, right_parent = select_parents(SMART_AGENTS)
-            new_agent.brain = left_parent.brain.crossover(
-                right_parent.brain, 0.01
-            )
+            new_brain = left_parent.brain.crossover(right_parent.brain, 0.1)
+            new_agent.brain.weights = new_brain.weights
+            new_agent.brain.biases = new_brain.biases
+
             new_agent.parents = [left_parent, right_parent]
 
         SMART_AGENTS.add(new_agent)
@@ -59,8 +61,11 @@ def random_world_position():
 
 
 def select_parents(population):
-    return sorted(list(population),
-                  key=lambda agent: -agent.fitness())[:2]
+    best = sorted(list(population),
+                  key=lambda agent: -agent.fitness())
+    best = best[:int(3)]
+    shuffle(best)
+    return best[:2]
 
 
 def recycle(items):
