@@ -1,4 +1,4 @@
-# microverse
+# Microverse
 [![Build Status](https://travis-ci.org/mnitchev/microverse.svg?branch=master)](https://travis-ci.org/mnitchev/microverse)
 
 Self reinforcement training of neural network using genetic algorithms.
@@ -10,19 +10,19 @@ Every time an agent dies, we get the two best agents in the current population a
 
 ## Content
  - Simulator
-  - Intersection algorithm
-  - Set of render-able and updatable agents
+   - Intersection algorithm
+   - Set of render-able and updatable agents
 
  - Renderer - we use the `ikinter` library to visualize the running simulation
 
  - Agent - base class for agent - (contains health, color, position and velocity properties)
  - Plugins
-  - Sight - sensor module for the agent
-  - Digestion - module for `consuming` the food and `leveling_up` the agent
-  - Mobility - module used for adding the velocity to the position of the agent
-  - Neural network - simple implementation of neural network (it has only `feed-forward` and `crossover` as public methods) used as the brain of the agent
-  - Navigator - module that consumes the output of the network and steers the agent accordingly 
-  - Fatigue - this module reduces the health of each agent in every `tick` of the simulation
+   - Sight - sensor module for the agent
+   - Digestion - module for `consuming` the food and `leveling_up` the agent
+   - Mobility - module used for adding the velocity to the position of the agent
+   - Neural network - simple implementation of neural network (it has only `feed-forward` and `crossover` as public methods) used as the brain of the agent
+   - Navigator - module that consumes the output of the network and steers the agent accordingly 
+   - Fatigue - this module reduces the health of each agent in every `tick` of the simulation
 
 ## Examples
 
